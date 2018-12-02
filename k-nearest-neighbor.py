@@ -45,27 +45,28 @@ def knn(data_train, data_test, k):
 
     #hitung nilai kelas dari data tetangga yang di dapat
     for x in neighbors:
-        classVotes = {}
+        countY = {}
 
         for data in neighbors[x]:
             response = data_train[data[0]][6]
 
-            if response in classVotes:
-                classVotes[response] += 1
+            if response in countY:
+                countY[response] += 1
             else :
-                classVotes[response] = 1
+                countY[response] = 1
         
-        predict[x] = max(classVotes.items(), key=operator.itemgetter(1))[0]
+        #ambil nilai kelas yang terbanyak
+        predict[x] = max(countY.items(), key=operator.itemgetter(1))[0]
     
     return predict
     
-
+#load file dan simpan ke data_file
 data_file = load_data('DataTrain_Tugas3_AI.csv')
 
-# 500 data yang sudah ada dijadikan data train
+#600 data yang sudah ada dijadikan data train
 data_train = [data_file[x] for x in range(600)]
 
-# 300 data yang sudah ada dijadikan data test
+#200 data yang sudah ada dijadikan data test
 data_test = [data_file[x] for x in range(600,800)]
 
 #k awal untuk uji coba
@@ -95,7 +96,7 @@ data_train = load_data('DataTrain_Tugas3_AI.csv')
 data_test = load_data('DataTest_Tugas3_AI.csv')
 
 #hitung hasil prediksi setiap data test
-predict = knn(data_train,data_test,k_final)
+predict = knn(data_train, data_test, k_final)
 
 #masukkan nilai Y yang sudah di dapatkan ke data test
 for x in range(len(data_test)):
